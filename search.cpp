@@ -17,7 +17,6 @@ node* SEARCH(const Problem& p){
 
     while(1){
         if (frontier.empty()){
-            std::cout << "No solution found!" << std::endl;
             return nullptr;
         }
         chosen = frontier.top();

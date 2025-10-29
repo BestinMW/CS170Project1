@@ -33,12 +33,14 @@ void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& 
             new_state.distance = -1; // reset the distance
             std::swap(new_state.label[ix * 3 + iy], new_state.label[(ix+dx[i]) * 3 + iy+dy[i]]); // change the label
             pt  = new node(new_state, this); // parent node is this!!!!
-            if(which_heuristic == 1)
-                pt->st.distance = misplaced(pt->st);
-            if(which_heuristic == 2)
-                pt->st.distance == euclidean(pt->st);
-            if (!explored.count(pt->st.label))
+
+            if (!explored.count(pt->st.label)){
+                if(which_heuristic == 1)
+                    pt->st.distance = misplaced(pt->st);
+                if(which_heuristic == 2)
+                    pt->st.distance == euclidean(pt->st);
                 frontier.push(pt);
+            }
             else
                 delete pt;
         }
