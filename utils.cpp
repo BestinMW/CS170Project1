@@ -61,7 +61,6 @@ void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& 
             }
             else
                 delete pt;
-            }
         }
     }
 }

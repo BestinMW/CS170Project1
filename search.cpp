@@ -13,7 +13,6 @@ node* SEARCH(const Problem& p){
     std::priority_queue<node*, std::vector<node*>, cost_compare>frontier;
     frontier.push(initial);
     std::unordered_set<std::string> explored;
-    explored.insert(initial->st.label);
     node* chosen = nullptr;
 
     while(1){
