@@ -7,7 +7,7 @@ node* SEARCH(const Problem& p);
 void backtraverse(node*);
 
 int main(){
-    int a, b, c;
+    int a, b, c, x;
     int p[3][3];
     int goal_p[3][3] = {1,2,3,4,5,6,7,8,0};
     for(int i = 0; i < 3; ++i){
@@ -16,9 +16,10 @@ int main(){
         p[i][1] = b;
         p[i][2] = c;
     }
+    cin >> x; //method
     state initial(p);
     state goal(goal_p);
-    Problem pr(initial,goal,1);
+    Problem pr(initial,goal,x);
     node* answer = SEARCH(pr);
     if(answer != nullptr)
         backtraverse(answer);

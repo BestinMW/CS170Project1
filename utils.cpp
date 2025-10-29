@@ -1,6 +1,7 @@
 #include "class.h"
 #include <deque>
 #include <iostream>
+#include <cmath>
 
 int misplaced(const state& s){
     int cnt = 0;
@@ -13,7 +14,24 @@ int misplaced(const state& s){
 }
 
 float euclidean(const state& s){
-    return 1;
+    float total = 0;
+    for(int i = 0; i < 3; ++i) {
+        for(int j = 0; j < 3; ++j) {
+            if (s.position[i][j] != 0 && s.position[i][j] != i*3+j+1) {
+                int goal_x = (s.position[i][j]-1)/3;
+                int goal_y = (s.position[i][j]-1)%3;
+                int x_diff = std::pow((goal_x - i),2);
+                int y_diff = std::pow((goal_y - j),2);
+                total += std::sqrt(x_diff+y_diff);
+
+                // manhattan distance
+                // int x_diff = std::abs(goal_x - i);
+                // int y_diff = std::abs(goal_y - j);
+                // total += x_diff+y_diff;
+            }
+        }
+    }
+    return total;
 }
 
 void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& frontier, std::unordered_set<std::string>& explored, int which_heuristic){
@@ -33,14 +51,18 @@ void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& 
             new_state.distance = -1; // reset the distance
             std::swap(new_state.label[ix * 3 + iy], new_state.label[(ix+dx[i]) * 3 + iy+dy[i]]); // change the label
             pt  = new node(new_state, this); // parent node is this!!!!
-            if(which_heuristic == 1)
-                pt->st.distance = misplaced(pt->st);
-            if(which_heuristic == 2)
-                pt->st.distance == euclidean(pt->st);
-            if (!explored.count(pt->st.label))
+            
+            
+            if (!explored.count(pt->st.label)) {
+                if(which_heuristic == 1)
+                    pt->st.distance = misplaced(pt->st);
+                if(which_heuristic == 2)
+                    pt->st.distance == euclidean(pt->st);
                 frontier.push(pt);
-            else
+                explored.insert(pt->st.label);
+            } else {
                 delete pt;
+            }
         }
     }
 }
