@@ -2,7 +2,21 @@
 #include <deque>
 #include <iostream>
 
-void node::expand(std::vector<node*>* frontier_pt, std::unordered_set<std::string>* explored_pt){
+int misplaced(const state& s){
+    int cnt = 0;
+    for(int i=0; i<3; ++i)
+        for(int j=0; j<3; ++j){
+            if(s.position[i][j] != 0 && s.position[i][j] != i*3+j+1)
+                cnt++;
+        }
+    return cnt;
+}
+
+int euclidean(const state& s){
+    return 1;
+}
+
+void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& frontier, std::unordered_set<std::string>& explored, int which_heuristic){
     int ix = this->st.blank_x;
     int iy = this->st.blank_y;
     int dx[4] = {1, -1, 0, 0};
@@ -19,8 +33,12 @@ void node::expand(std::vector<node*>* frontier_pt, std::unordered_set<std::strin
             new_state.distance = -1; // reset the distance
             std::swap(new_state.label[ix * 3 + iy], new_state.label[(ix+dx[i]) * 3 + iy+dy[i]]); // change the label
             pt  = new node(new_state, this); // parent node is this!!!!
-            if (!explored_pt->count(pt->st.label))
-                frontier_pt->push_back(pt);
+            if(which_heuristic == 1)
+                pt->st.distance = misplaced(pt->st);
+            if(which_heuristic == 2)
+                pt->st.distance == euclidean(pt->st);
+            if (!explored.count(pt->st.label))
+                frontier.push(pt);
             else
                 delete pt;
         }

@@ -1,5 +1,4 @@
 #include "class.h"
-#include "func.h"
 #include <iostream>
 
 using namespace std;
@@ -19,7 +18,7 @@ int main(){
     }
     state initial(p);
     state goal(goal_p);
-    Problem pr(initial,goal,0);
+    Problem pr(initial,goal,1);
     node* answer = SEARCH(pr);
     if(answer != nullptr)
         backtraverse(answer);

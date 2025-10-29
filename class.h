@@ -1,8 +1,8 @@
-#pragma once
 #include <string>
 #include <vector>
 #include <unordered_set>
 #include <utility>
+#include <queue>
 
 class state{
 public:
@@ -67,11 +67,13 @@ public:
     }
 };
 
+class cost_compare;
+
 class node{
 public:
     state st;
     node* parent;
-    void expand(std::vector<node*>* frontier_pt, std::unordered_set<std::string>* explored_pt);
+    void expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& frontier, std::unordered_set<std::string>& explored_pt, int which_heuristic);
 
     node(state s, node* p): st(s), parent(p) {} // assignment
 
@@ -85,5 +87,12 @@ public:
     int method;
 
     Problem(const state& i, const state& g, int m) : initial(i), goal(g), method(m) {
+    }
+};
+
+class cost_compare{
+public:
+    bool operator()(node* a, node* b) const {
+        return (a->st.cost + a->st.distance) > (b->st.cost + b->st.distance);
     }
 };
