@@ -2,27 +2,28 @@
 #include "func.h"
 #include <iostream>
 
-node* SEARCH(Problem p){
-    node* (*method_array[3])(std::vector<node*>&) = {
-        uniform_cost,
-        Astar_misplaced,
-        Astar_Euclidean
-    };
-    auto method = method_array[p.method];
-    node* initial = new node(p.initial, nullptr);
-    std::vector<node*> frontier = {initial};
-    std::unordered_set<std::string> explored;
-    node* chosen = nullptr;
+using namespace std;
 
-    while(1){
-        if (frontier.empty()){
-            std::cout << "No solution found!" << std::endl;
-            return nullptr;
-        }
-        chosen = method(frontier);
-        if(chosen->st == p.goal)
-            return chosen;
-        else
-            chosen->expand(&frontier, &explored);
+node* SEARCH(const Problem& p);
+void backtraverse(node*);
+
+int main(){
+    int a, b, c;
+    int p[3][3];
+    int goal_p[3][3] = {1,2,3,4,5,6,7,8,0};
+    for(int i = 0; i < 3; ++i){
+        cin >> a >> b >> c;
+        p[i][0] = a;
+        p[i][1] = b;
+        p[i][2] = c;
     }
+    state initial(p);
+    state goal(goal_p);
+    Problem pr(initial,goal,0);
+    node* answer = SEARCH(pr);
+    if(answer != nullptr)
+        backtraverse(answer);
+    else
+        cout << "no solution!";
+    return 0;
 }

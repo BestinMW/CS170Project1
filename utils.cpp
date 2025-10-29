@@ -1,4 +1,6 @@
 #include "class.h"
+#include <deque>
+#include <iostream>
 
 void node::expand(std::vector<node*>* frontier_pt, std::unordered_set<std::string>* explored_pt){
     int ix = this->st.blank_x;
@@ -15,7 +17,7 @@ void node::expand(std::vector<node*>* frontier_pt, std::unordered_set<std::strin
             new_state.blank_y += dy[i]; // change blank_y
             new_state.cost += 1; // add 1 to cost
             new_state.distance = -1; // reset the distance
-            std::swap(new_state.label[ix * 3 + iy + 1], new_state.label[(ix+dx[i]) * 3 + iy+dy[i] + 1]); // change the label
+            std::swap(new_state.label[ix * 3 + iy], new_state.label[(ix+dx[i]) * 3 + iy+dy[i]]); // change the label
             pt  = new node(new_state, this); // parent node is this!!!!
             if (!explored_pt->count(pt->st.label))
                 frontier_pt->push_back(pt);
@@ -25,4 +27,23 @@ void node::expand(std::vector<node*>* frontier_pt, std::unordered_set<std::strin
     }
 }
 
-void backtraverse(node* solution);
+void backtraverse(node* solution){
+    std::deque<node*> seq = {solution};
+    node* pt = solution->parent;
+    while(pt != nullptr){
+        seq.push_front(pt);
+        pt = pt->parent;
+    }
+
+    int ct = 0;
+    for(node* a: seq){
+        std::cout << "Step" << ct << ":" << std::endl;
+        for(int i = 0; i < 3; ++i){
+            for(int j = 0; j < 3; ++j){
+                std::cout << a->st.position[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+        ct++;
+    }
+}

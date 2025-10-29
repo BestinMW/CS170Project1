@@ -1,3 +1,4 @@
+#pragma once
 #include "class.h"
 
 node* uniform_cost(std::vector<node*>& frontier);
