@@ -22,6 +22,7 @@ node* SEARCH(const Problem& p){
         }
         chosen = frontier.top();
         frontier.pop();
+        explored.insert(chosen->st.label);
         if(chosen->st == p.goal)
             return chosen;
         else
