@@ -12,7 +12,7 @@ int misplaced(const state& s){
     return cnt;
 }
 
-int euclidean(const state& s){
+float euclidean(const state& s){
     return 1;
 }
 
