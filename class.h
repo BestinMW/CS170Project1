@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <utility>
 #include <queue>
+#include <iostream>
 
 class state{
 public:
@@ -74,6 +75,14 @@ public:
     state st;
     node* parent;
     void expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& frontier, std::unordered_set<std::string>& explored_pt, int which_heuristic);
+    void print(){
+        for (int i=0; i<3; ++i){
+            for(int j=0; j<3; ++j)
+                std::cout << this->st.position[i][j] << " ";
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
 
     node(state s, node* p): st(s), parent(p) {} // assignment
 

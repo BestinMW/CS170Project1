@@ -56,7 +56,7 @@ void node::expand(std::priority_queue<node*, std::vector<node*>, cost_compare>& 
                 if(which_heuristic == 1)
                     pt->st.distance = misplaced(pt->st);
                 if(which_heuristic == 2)
-                    pt->st.distance == euclidean(pt->st);
+                    pt->st.distance = euclidean(pt->st);
                 frontier.push(pt);
             }
             else
